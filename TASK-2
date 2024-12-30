@@ -1,0 +1,100 @@
+/*A program to manage and monitor student grades. Users can input grades for various assignments or subjects, view a summary with the average grade, determine the corresponding letter grade, and calculate the GPA on a 4.0 scale. It helps simplify grade tracking and analysis.
+import java.util./*
+
+public class StudentGradeTracker {
+    
+    static class Student {
+        String name;
+        List<Double> grades = new ArrayList<>();
+        double averageGrade;
+        char letterGrade;
+        double gpa;
+
+        public Student(String name) {
+            this.name = name;
+        }
+
+        // Method to add grade
+        public void addGrade(double grade) {
+            grades.add(grade);
+        }
+
+        // Method to calculate average grade
+        public void calculateAverage() {
+            double sum = 0;
+            for (double grade : grades) {
+                sum += grade;
+            }
+            averageGrade = sum / grades.size();
+        }
+
+        // Method to calculate letter grade based on average grade
+        public void calculateLetterGrade() {
+            if (averageGrade >= 90) {
+                letterGrade = 'A';
+                gpa = 4.0;
+            } else if (averageGrade >= 80) {
+                letterGrade = 'B';
+                gpa = 3.0;
+            } else if (averageGrade >= 70) {
+                letterGrade = 'C';
+                gpa = 2.0;
+            } else if (averageGrade >= 60) {
+                letterGrade = 'D';
+                gpa = 1.0;
+            } else {
+                letterGrade = 'F';
+                gpa = 0.0;
+            }
+        }
+
+        // Method to display student information
+        public void displayStudentInfo() {
+            System.out.println("\nStudent Name: " + name);
+            System.out.println("Grades: " + grades);
+            System.out.println("Average Grade: " + averageGrade);
+            System.out.println("Letter Grade: " + letterGrade);
+            System.out.println("GPA: " + gpa);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get student name
+        System.out.print("Enter student's name: ");
+        String studentName = scanner.nextLine();
+        Student student = new Student(studentName);
+
+        // Input grades for subjects/assignments
+        while (true) {
+            System.out.print("\nEnter grade for a subject/assignment (or type 'done' to finish): ");
+            String input = scanner.nextLine();
+
+            if (input.toLowerCase().equals("done")) {
+                break;
+            }
+
+            try {
+                double grade = Double.parseDouble(input);
+                if (grade < 0 || grade > 100) {
+                    System.out.println("Invalid grade. Please enter a grade between 0 and 100.");
+                } else {
+                    student.addGrade(grade);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid grade.");
+            }
+        }
+
+        // Calculate average, letter grade, and GPA
+        student.calculateAverage();
+        student.calculateLetterGrade();
+
+        // Display student information
+        student.displayStudentInfo();
+
+        // Close scanner
+        scanner.close();
+    }
+}
